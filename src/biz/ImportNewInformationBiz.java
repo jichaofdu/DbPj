@@ -9,18 +9,22 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import dao.ProjectDao;
+import dao.SystemManagerDao;
 import dao.UserDao;
 import entity.Project;
+import entity.SystemManager;
 import entity.User;
 
 public class ImportNewInformationBiz {
 	private UserDao userDao;
 	private ProjectDao projectDao;
+	private SystemManagerDao systemManagerDao;
 	private static ImportNewInformationBiz importInfoBiz;
 	
 	private ImportNewInformationBiz(){
 		userDao = UserDao.getInstance();
 		projectDao = ProjectDao.getInstance();
+		systemManagerDao = SystemManagerDao.getInstance();
 	}
 	
 	public static ImportNewInformationBiz getInstance(){
@@ -52,19 +56,29 @@ public class ImportNewInformationBiz {
 		        	values[i-1][j] = cell.toString();
 		        } 
 			}
-			for(int i = 1;i < values.length;i++){
-				int newId = Integer.parseInt(values[i][0]);
-				String name = values[i][1];
-				String password = values[i][2];
+			for(int i = 0;i < values.length;i++){
 				int type = -1;
 				switch(values[i][3]){
 					case "产品经理": type = 1;break;
 					case "销售": type = 2;break;
 					case "开发": type = 3;break;
 				}
-				User tempUser = new User(newId,password,name,type);
-				userDao.userCreate(tempUser);
-				System.out.println("[Tip] 创建了一个新用户");
+				if(type == -1){
+					String id = values[i][0];
+					String name = values[i][1];
+					String password = values[i][2];
+					SystemManager newSystemManager = new SystemManager(id,password,name);
+					systemManagerDao.createSystemManager(newSystemManager);
+					System.out.println("[Tip] 创建了一个管理员");
+				}else{
+					int newId = Integer.parseInt(values[i][0]);
+					String name = values[i][1];
+					String password = values[i][2];
+					User tempUser = new User(newId,password,name,type);
+					userDao.userCreate(tempUser);
+					System.out.println("[Tip] 创建了一个新用户");
+				}
+
 			}
 		    inp.close(); 
 			return true;

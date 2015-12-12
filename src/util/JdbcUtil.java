@@ -9,7 +9,7 @@ public class JdbcUtil {
 	private String passwd;
 	private static JdbcUtil util;
 	private JdbcUtil(){
-		url = "jdbc:mysql://localhost:3306/dbpj";
+		url = "jdbc:mysql://localhost:3306/dbpj?characterEncoding=utf8";
 		user = "root";
 		passwd = "140311jc";
 		try {

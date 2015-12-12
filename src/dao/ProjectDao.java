@@ -33,6 +33,7 @@ public class ProjectDao {
 			ps.setInt(2, project.getManagerId());
 			ps.setString(3, project.getName());
 			ps.setString(4, project.getDescription());
+			System.out.println(ps.toString());
 			ps.execute();
 			return true;
 		} catch (SQLException e) {
