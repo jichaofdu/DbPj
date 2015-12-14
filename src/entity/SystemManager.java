@@ -1,11 +1,11 @@
 package entity;
 
 public class SystemManager {
-	private String id;
+	private int id;
 	private String password;
 	private String name;
 	
-	public SystemManager(String newId,String newPassword,String name){
+	public SystemManager(int newId,String newPassword,String name){
 		this.id = newId;
 		this.password = newPassword;
 		this.name = name;
@@ -19,11 +19,11 @@ public class SystemManager {
 		this.name = name;
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

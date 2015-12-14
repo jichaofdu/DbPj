@@ -64,10 +64,9 @@ public class ImportNewInformationBiz {
 					case "开发": type = 3;break;
 				}
 				if(type == -1){
-					String id = values[i][0];
 					String name = values[i][1];
 					String password = values[i][2];
-					SystemManager newSystemManager = new SystemManager(id,password,name);
+					SystemManager newSystemManager = new SystemManager(-1,password,name);
 					systemManagerDao.createSystemManager(newSystemManager);
 					System.out.println("[Tip] 创建了一个管理员");
 				}else{

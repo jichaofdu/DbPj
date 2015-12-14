@@ -13,6 +13,9 @@ public class UserDao {
 	private final String createNewUserSql
 		= "insert into user(user_id,user_password,user_name,user_type) "
 				+ "values(?,?,?,?)";
+	private final String createNewUserNoIdSql
+		= "insert into user(user_password,user_name,user_type) "
+				+ "values(?,?,?)";
 	private final String getUserInfoSql
 		="select * from user where user_id = ?";
 	private final String changeUserInfoSql
@@ -29,6 +32,11 @@ public class UserDao {
 		return userDao;
 	}
 	
+	/**
+	 * 创建一个新用户（ID由外界传入）
+	 * @param user
+	 * @return
+	 */
 	public boolean userCreate(User user){
 		Connection conn = util.getConnection();
 		PreparedStatement ps = null;
@@ -53,6 +61,39 @@ public class UserDao {
 		}
 	}
 	
+	/**
+	 * 解释：创建新用户（ID由数据库自动给出）
+	 * @param user 传入数据库的数据
+	 * @return
+	 */
+	public boolean userCreateNoId(User user){
+		Connection conn = util.getConnection();
+		PreparedStatement ps = null;
+		try {
+			ps = conn.prepareStatement(this.createNewUserNoIdSql);
+			ps.setString(1, user.getPassword());
+			ps.setString(2, user.getName());
+			ps.setInt(3, user.getType());
+			ps.execute();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			try {
+				if(ps != null)   ps.close();
+				if(conn != null) conn.close();	
+			} catch (SQLException e) {
+					e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * 解释：通过ID获得用户的信息
+	 * @param userId
+	 * @return
+	 */
 	public User userGetById(int userId){
 		Connection conn = util.getConnection();
 		PreparedStatement ps = null;
@@ -84,6 +125,11 @@ public class UserDao {
 		}
 	}
 	
+	/**
+	 * 解释：修改用户的信息
+	 * @param user
+	 * @return
+	 */
 	public boolean userInfoChange(User user){
 		Connection conn = util.getConnection();
 		PreparedStatement ps = null;

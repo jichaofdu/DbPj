@@ -1,32 +1,15 @@
 package entity;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-
 public class TripTask {
+	int id;
+	int applicationId;
+	int developerId;
+	int status;
 	
-	private int id;
-	private int managerId;
-	private int salesmanId;
-	private int projectId;
-	private Date date;
-	private int numPeople;
-	private int numDays;
-	private String description;
-	private Timestamp handInTime;
-	private int status;
-	
-	public TripTask(int newId,int newManagerId,int newSalesmanId,int newProjectId,Date newDate,int newNumPeople,
-			int newNumDays,String newDescription,Timestamp newTime,int newStatus){
+	public TripTask(int newId,int newApplicationId,int newDeveloperId,int newStatus){
 		this.id = newId;
-		this.managerId = newManagerId;
-		this.salesmanId = newSalesmanId;
-		this.projectId = newProjectId;
-		this.date = newDate;
-		this.numPeople = newNumPeople;
-		this.numDays = newNumDays;
-		this.description = newDescription;
-		this.handInTime = newTime;
+		this.applicationId = newApplicationId;
+		this.developerId = newDeveloperId;
 		this.status = newStatus;
 	}
 
@@ -38,68 +21,20 @@ public class TripTask {
 		this.id = id;
 	}
 
-	public int getManagerId() {
-		return managerId;
+	public int getApplicationId() {
+		return applicationId;
 	}
 
-	public void setManagerId(int managerId) {
-		this.managerId = managerId;
+	public void setApplicationId(int applicationId) {
+		this.applicationId = applicationId;
 	}
 
-	public int getSalesmanId() {
-		return salesmanId;
+	public int getDeveloperId() {
+		return developerId;
 	}
 
-	public void setSalesmanId(int salesmanId) {
-		this.salesmanId = salesmanId;
-	}
-
-	public int getProjectId() {
-		return projectId;
-	}
-
-	public void setProjectId(int projectId) {
-		this.projectId = projectId;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public int getNumPeople() {
-		return numPeople;
-	}
-
-	public void setNumPeople(int numPeople) {
-		this.numPeople = numPeople;
-	}
-
-	public int getNumDays() {
-		return numDays;
-	}
-
-	public void setNumDays(int numDays) {
-		this.numDays = numDays;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public Timestamp getHandInTime() {
-		return handInTime;
-	}
-
-	public void setHandInTime(Timestamp handInTime) {
-		this.handInTime = handInTime;
+	public void setDeveloperId(int developerId) {
+		this.developerId = developerId;
 	}
 
 	public int getStatus() {
@@ -109,5 +44,6 @@ public class TripTask {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+	
 	
 }

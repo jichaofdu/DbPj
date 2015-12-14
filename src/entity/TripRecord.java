@@ -6,16 +6,14 @@ import java.sql.Date;
 public class TripRecord {
 	private int id;
 	private int taskId;
-	private int developerId;
 	private Date actualTripDate;
 	private int actualNumberOfDays;
 	private String workContent;
 	
-	public TripRecord(int newId,int newTaskId,int newDeveloperId,
+	public TripRecord(int newId,int newTaskId,
 			Date newActualDate,int newNumDays,String newContent){
 		this.id = newId;
 		this.taskId = newTaskId;
-		this.developerId = newDeveloperId;
 		this.actualTripDate = newActualDate;
 		this.actualNumberOfDays = newNumDays;
 		this.workContent = newContent;
@@ -35,14 +33,6 @@ public class TripRecord {
 
 	public void setTaskId(int taskId) {
 		this.taskId = taskId;
-	}
-
-	public int getDeveloperId() {
-		return developerId;
-	}
-
-	public void setDeveloperId(int developerId) {
-		this.developerId = developerId;
 	}
 
 	public Date getActualTripDate() {

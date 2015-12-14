@@ -2,12 +2,12 @@ package entity;
 
 public class Refuse {
 	private int id;
-	private int taskId;
+	private int applicationId;
 	private String reason;
 	
-	public Refuse(int newId,int newTaskId,String newReason){
+	public Refuse(int newId,int newApplicationId,String newReason){
 		this.id = newId;
-		this.taskId = newTaskId;
+		this.applicationId = newApplicationId;
 		this.reason = newReason;
 	}
 
@@ -19,12 +19,12 @@ public class Refuse {
 		this.id = id;
 	}
 
-	public int getTaskId() {
-		return taskId;
+	public int getApplicationId() {
+		return applicationId;
 	}
 
-	public void setTaskId(int taskId) {
-		this.taskId = taskId;
+	public void setApplicationId(int applicationId) {
+		this.applicationId = applicationId;
 	}
 
 	public String getReason() {
