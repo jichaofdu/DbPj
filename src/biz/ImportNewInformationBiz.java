@@ -73,7 +73,7 @@ public class ImportNewInformationBiz {
 					int newId = Integer.parseInt(values[i][0]);
 					String name = values[i][1];
 					String password = values[i][2];
-					User tempUser = new User(newId,password,name,type);
+					User tempUser = new User(newId,password,name,type,false);
 					userDao.userCreate(tempUser);
 					System.out.println("[Tip] 创建了一个新用户");
 				}

@@ -11,15 +11,15 @@ public class UserDao {
 	private JdbcUtil util;
 	private static UserDao userDao;
 	private final String createNewUserSql
-		= "insert into user(user_id,user_password,user_name,user_type) "
-				+ "values(?,?,?,?)";
+		= "insert into user(user_id,user_password,user_name,user_type,user_disabled) "
+				+ "values(?,?,?,?,?)";
 	private final String createNewUserNoIdSql
-		= "insert into user(user_password,user_name,user_type) "
-				+ "values(?,?,?)";
+		= "insert into user(user_password,user_name,user_type,user_disabled) "
+				+ "values(?,?,?,?)";
 	private final String getUserInfoSql
 		="select * from user where user_id = ?";
 	private final String changeUserInfoSql
-		="update user set user_password = ?,user_name = ?,user_type = ? where user_id = ?";
+		="update user set user_password = ?,user_name = ?,user_type = ?,user_disabled = ? where user_id = ?";
 	
 	private UserDao(){
 		util = JdbcUtil.getInstance();
@@ -46,6 +46,7 @@ public class UserDao {
 			ps.setString(2, user.getPassword());
 			ps.setString(3, user.getName());
 			ps.setInt(4, user.getType());
+			ps.setBoolean(5, user.isDisabled());
 			ps.execute();
 			return true;
 		} catch (SQLException e) {
@@ -74,6 +75,7 @@ public class UserDao {
 			ps.setString(1, user.getPassword());
 			ps.setString(2, user.getName());
 			ps.setInt(3, user.getType());
+			ps.setBoolean(4, user.isDisabled());
 			ps.execute();
 			return true;
 		} catch (SQLException e) {
@@ -106,7 +108,8 @@ public class UserDao {
 				String userPassword = rs.getString("user_password");
 				String userName = rs.getString("user_name");
 				int userType = rs.getInt("user_type");
-				User user = new User(userId,userPassword,userName,userType);
+				boolean user_disabled = rs.getBoolean("user_disabled");
+				User user = new User(userId,userPassword,userName,userType,user_disabled);
 				return user;
 			}else{
 				return null;
@@ -138,7 +141,8 @@ public class UserDao {
 			ps.setString(1, user.getPassword());
 			ps.setString(2, user.getName());
 			ps.setInt(3, user.getType());
-			ps.setInt(4, user.getId());
+			ps.setBoolean(4, user.isDisabled());
+			ps.setInt(5, user.getId());
 			ps.execute();
 			return true;
 		} catch (SQLException e) {

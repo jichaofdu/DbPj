@@ -10,10 +10,10 @@ public class SystemManagerDao {
 	private JdbcUtil util;
 	private static SystemManagerDao systemManagerDao;
 	private final String createNewUserSql
-		= "insert into system_manager(system_manager_password,system_manager_name)"
+		= "insert into system_manager(system_manager_password,system_manager_username)"
 			+ "values(?,?)";
 	private final String getSystemManagerInfoSql
-		= "select * from system_manager where id = ?";
+		= "select * from system_manager where system_manager_id = ?";
 	
 	private SystemManagerDao(){
 		util = JdbcUtil.getInstance();
@@ -67,9 +67,9 @@ public class SystemManagerDao {
 			ps.setInt(1,systemManagerId);
 			rs = ps.executeQuery();
 			if(rs.next()){
-				String systemManagerPassword = rs.getString("password");
-				String systemManagerName = rs.getString("name");
-				int id = rs.getInt("id");
+				String systemManagerPassword = rs.getString("system_manager_password");
+				String systemManagerName = rs.getString("system_manager_username");
+				int id = rs.getInt("system_manager_id");
 				SystemManager systemManager = new SystemManager(id,systemManagerPassword,systemManagerName);
 				return systemManager;
 			}else{

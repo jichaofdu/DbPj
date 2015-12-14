@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import entity.TripApplication;
 import util.JdbcUtil;
 
@@ -12,12 +13,28 @@ public class TripApplicationDao {
 	private JdbcUtil util;
 	private static TripApplicationDao tripApplicationDao;
 	private final String createNewTripApplicationSql
-		= "insert into trip_application(salesman_id,project_id,date,numOfPeople,numDays,description,submissionTime,status,approvalTime)"
+		= "insert into trip_application(salesman_id,project_id,"
+				+ "application_trip_date,application_number_of_people,"
+				+ "application_number_of_days,application_work_description,"
+				+ "application_submission_time,application_status,"
+				+ "application_approval_time)"
 				+ "values(?,?,?,?,?,?,?,?,?)";
 	private final String getTripApplicationByIdSql
-		= "select * from trip_application where id = ?";
+		= "select * from trip_application where application_id = ?";
+	private final String getTripApplicationByProjectIdSql
+		= "select * from trip_application where project_id = ?";
+	private final String getTripApplicationBySalesmanIdSql
+		= "select * from trip_application where salesman_id = ?";	
 	private final String changeTripApplicationInfoSql
-		="update trip_task set salesman_id = ?,project_id = ?,date = ?,numOfPeople = ?,numDays = ?,description = ?,submissionTime = ?,status = ?,approvalTime = ? where id = ?";
+		="update trip_application set salesman_id = ?,"
+				+ "project_id = ?,application_trip_date = ?,"
+				+ "application_number_of_people = ?,"
+				+ "application_number_of_days = ?,"
+				+ "application_work_description = ?,"
+				+ "application_submission_time = ?,"
+				+ "application_status = ?,"
+				+ "application_approval_time = ? "
+				+ "where application_id = ?";
 	
 	
 	public TripApplicationDao(){
@@ -79,15 +96,15 @@ public class TripApplicationDao {
 			ps.setInt(1,tripApplicationId);
 			rs = ps.executeQuery();
 			if(rs.next()){
-				int salesmanId = rs.getInt("application_id");
-				int projectId = rs.getInt("developer_id");
-				Date date = rs.getDate("date");
-				int numOfProple = rs.getInt("developer_id");
-				int numOfDays = rs.getInt("developer_id");
-				String description = rs.getString("description");
-				Timestamp submissionTime = rs.getTimestamp("submissionTime");
-				int status = rs.getInt("status");
-				Date approvalTime = rs.getDate("approval_time");
+				int salesmanId = rs.getInt("salesman_id");
+				int projectId = rs.getInt("project_id");
+				Date date = rs.getDate("application_trip_date date");
+				int numOfProple = rs.getInt("application_number_of_people");
+				int numOfDays = rs.getInt("application_number_of_days");
+				String description = rs.getString("application_work_description");
+				Timestamp submissionTime = rs.getTimestamp("application_submission_time");
+				int status = rs.getInt("application_status");
+				Date approvalTime = rs.getDate("application_approval_time");
 				TripApplication tripApplication = new TripApplication(tripApplicationId,salesmanId,
 						projectId,date,numOfProple,numOfDays,description,submissionTime,status,approvalTime);
 				return tripApplication;
@@ -112,7 +129,7 @@ public class TripApplicationDao {
 	 * @param task
 	 * @return
 	 */
-	public boolean userTripTaskChange(TripApplication newTripApplication){
+	public boolean tripTaskInfoChange(TripApplication newTripApplication){
 		Connection conn = util.getConnection();
 		PreparedStatement ps = null;
 		try {
@@ -141,4 +158,91 @@ public class TripApplicationDao {
 			}
 		}
 	}
+	
+	/**
+	 * 解释：根据项目ID查询到其对应的出差申请组
+	 * @param projectId
+	 * @return
+	 */
+	public ArrayList<TripApplication> tripApplicationGetByProjectId(int projectId){
+		Connection conn = util.getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ArrayList<TripApplication> list = new ArrayList<TripApplication>();
+		try {
+			ps = conn.prepareStatement(this.getTripApplicationByProjectIdSql);
+			ps.setInt(1,projectId);
+			rs = ps.executeQuery();
+			while(rs.next()){
+				int tripApplicationId = rs.getInt("application_id");
+				int salesmanId = rs.getInt("salesman_id");
+				Date date = rs.getDate("application_trip_date date");
+				int numOfProple = rs.getInt("application_number_of_people");
+				int numOfDays = rs.getInt("application_number_of_days");
+				String description = rs.getString("application_work_description");
+				Timestamp submissionTime = rs.getTimestamp("application_submission_time");
+				int status = rs.getInt("application_status");
+				Date approvalTime = rs.getDate("application_approval_time");
+				TripApplication tripApplication = new TripApplication(tripApplicationId,salesmanId,
+						projectId,date,numOfProple,numOfDays,description,submissionTime,status,approvalTime);
+				list.add(tripApplication);
+			}
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}finally{
+			try {
+				if(ps != null)   ps.close();
+				if(conn != null) conn.close();	
+				if(rs != null) rs.close();
+			} catch (SQLException e) {
+					e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * 解释：根据销售人员的ID查询对应的出差申请的集合
+	 * @param salesmanId
+	 * @return
+	 */
+	public ArrayList<TripApplication> tripApplicationGetBySalesmanId(int salesmanId){
+		Connection conn = util.getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ArrayList<TripApplication> list = new ArrayList<TripApplication>();
+		try {
+			ps = conn.prepareStatement(this.getTripApplicationBySalesmanIdSql);
+			ps.setInt(1,salesmanId);
+			rs = ps.executeQuery();
+			while(rs.next()){
+				int tripApplicationId = rs.getInt("application_id");
+				int projectId = rs.getInt("project_id");
+				Date date = rs.getDate("application_trip_date date");
+				int numOfProple = rs.getInt("application_number_of_people");
+				int numOfDays = rs.getInt("application_number_of_days");
+				String description = rs.getString("application_work_description");
+				Timestamp submissionTime = rs.getTimestamp("application_submission_time");
+				int status = rs.getInt("application_status");
+				Date approvalTime = rs.getDate("application_approval_time");
+				TripApplication tripApplication = new TripApplication(tripApplicationId,salesmanId,
+						projectId,date,numOfProple,numOfDays,description,submissionTime,status,approvalTime);
+				list.add(tripApplication);
+			}
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}finally{
+			try {
+				if(ps != null)   ps.close();
+				if(conn != null) conn.close();	
+				if(rs != null) rs.close();
+			} catch (SQLException e) {
+					e.printStackTrace();
+			}
+		}
+	}
+ 	
 }

@@ -3,6 +3,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import entity.Project;
 import util.JdbcUtil;
 
@@ -16,7 +17,9 @@ public class ProjectDao {
 		= "insert into project(project_manager_id,project_name,project_description) "
 			+ "values(?,?,?)";
 	private final String getProjectInfoByIdSql
-	    = "select * from project where id = ?";
+	    = "select * from project where project_id = ?";
+	private final String getProjectInfoByManagerIdSql
+		= "select * from project where project_manager_id = ?";
 	
 	private ProjectDao(){
 		util = JdbcUtil.getInstance();
@@ -102,9 +105,9 @@ public class ProjectDao {
 			ps.setInt(1,projectId);
 			rs = ps.executeQuery();
 			if(rs.next()){
-				int managerId = rs.getInt("manager_id");
+				int managerId = rs.getInt("project_manager_id");
 				String projectName = rs.getString("project_name");
-				String description = rs.getString("description");
+				String description = rs.getString("project_description");
 				Project project = new Project(projectId,managerId,projectName,description);
 				return project;
 			}else{
@@ -120,6 +123,42 @@ public class ProjectDao {
 				if(rs != null) rs.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * 解释：根据负责经理的ID查询到项目的集合
+	 * @param managerId
+	 * @return
+	 */
+	public ArrayList<Project> projectGetByManagerId(int managerId){
+		Connection conn = util.getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ArrayList<Project> list = new ArrayList<Project>();
+		try {
+			ps = conn.prepareStatement(this.getProjectInfoByManagerIdSql);
+			ps.setInt(1,managerId);
+			rs = ps.executeQuery();
+			while(rs.next()){
+				int id = rs.getInt("project_id");
+				String name = rs.getString("project_name");
+				String description = rs.getString("project_description");
+				Project project = new Project(id,managerId,name,description);
+				list.add(project);
+			}
+			return list;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}finally{
+			try {
+				if(ps != null)   ps.close();
+				if(conn != null) conn.close();	
+				if(rs != null) rs.close();
+			} catch (SQLException e) {
+					e.printStackTrace();
 			}
 		}
 	}

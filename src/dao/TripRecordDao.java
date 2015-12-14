@@ -11,10 +11,15 @@ public class TripRecordDao {
 	private JdbcUtil util;
 	private static TripRecordDao tripRecordDao;
 	private final String createNewTripRecordSql
-		= "insert into trip_record(task_id,actual_date,actual_time,work_description)"
+		= "insert into trip_record(task_id,"
+				+ "trip_record_actual_trip_date,"
+				+ "trip_record_actual_number_of_days,"
+				+ "trip_record_work_description)"
 				+ "values(?,?,?,?)";
 	private final String getTripRecordById 
-		= "select * from trip_record where id = ?";
+		= "select * from trip_record where trip_record_id = ?";
+	private final String getTripRecordByTaskId
+		= "select * from trip_record where task_id = ?";
 	
 	public TripRecordDao() {
 		util = JdbcUtil.getInstance();
@@ -71,10 +76,47 @@ public class TripRecordDao {
 			rs = ps.executeQuery();
 			if(rs.next()){
 				int taskId = rs.getInt("task_id");
-				Date actualDate = rs.getDate("date");
-				int numOfDays = rs.getInt("numOfDay");
-				String workContent = rs.getString("work_content");
+				Date actualDate = rs.getDate("trip_record_actual_trip_date");
+				int numOfDays = rs.getInt("trip_record_actual_number_of_days");
+				String workContent = rs.getString("trip_record_work_description");
 				TripRecord tripRecord = new TripRecord(tripRecordId,taskId,actualDate,numOfDays,workContent);
+				return tripRecord;
+			}else{
+				return null;
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+			return null;
+		}finally{
+			try {
+				if(ps != null)   ps.close();
+				if(conn != null) conn.close();	
+				if(rs != null) rs.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	/**
+	 * 解释：根据出差任务编号来查出差记录
+	 * @param taskId
+	 * @return
+	 */
+	public TripRecord getTripRecordByTaskId(int taskId){
+		Connection conn = util.getConnection();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try{
+			ps = conn.prepareStatement(this.getTripRecordByTaskId);
+			ps.setInt(1,taskId);
+			rs = ps.executeQuery();
+			if(rs.next()){
+				int id = rs.getInt("trip_record_id");
+				Date actualDate = rs.getDate("trip_record_actual_trip_date");
+				int numOfDays = rs.getInt("trip_record_actual_number_of_days");
+				String workContent = rs.getString("trip_record_work_description");
+				TripRecord tripRecord = new TripRecord(id,taskId,actualDate,numOfDays,workContent);
 				return tripRecord;
 			}else{
 				return null;
