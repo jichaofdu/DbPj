@@ -1,4 +1,5 @@
 package entity;
+
 import java.sql.Timestamp;
 
 public class Refuse {
@@ -6,15 +7,16 @@ public class Refuse {
 	private int applicationId;
 	private String reason;
 	private Timestamp time;
-	
-	public Refuse(int newId,int newApplicationId,String newReason, Timestamp newTime){
+
+	public Refuse(int newId, int newApplicationId, String newReason,
+			Timestamp newTime) {
 		this.id = newId;
 		this.applicationId = newApplicationId;
 		this.reason = newReason;
 		this.time = newTime;
 	}
 
-	public  Timestamp getTime() {
+	public Timestamp getTime() {
 		return time;
 	}
 
@@ -45,5 +47,5 @@ public class Refuse {
 	public void setReason(String reason) {
 		this.reason = reason;
 	}
-	
+
 }

@@ -4,8 +4,8 @@ public class SystemManager {
 	private int id;
 	private String password;
 	private String name;
-	
-	public SystemManager(int newId,String newPassword,String name){
+
+	public SystemManager(int newId, String newPassword, String name) {
 		this.id = newId;
 		this.password = newPassword;
 		this.name = name;
@@ -34,5 +34,5 @@ public class SystemManager {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
+
 }

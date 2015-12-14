@@ -1,9 +1,10 @@
 package entity;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 
 public class TripApplication {
-	
+
 	private int id;
 	private int salesmanId;
 	private int projectId;
@@ -14,9 +15,11 @@ public class TripApplication {
 	private Timestamp submissionTime;
 	private int status;
 	private Date approvalTime;
-	
-	public TripApplication(int newId,int newSalesmanId,int newProjectId,Date newDate,int newNumPeople,
-			int newNumDays,String newDescription,Timestamp newTime,int newStatus,Date newApprovalTime){
+
+	public TripApplication(int newId, int newSalesmanId, int newProjectId,
+			Date newDate, int newNumPeople, int newNumDays,
+			String newDescription, Timestamp newTime, int newStatus,
+			Date newApprovalTime) {
 		this.id = newId;
 		this.salesmanId = newSalesmanId;
 		this.projectId = newProjectId;
@@ -108,5 +111,5 @@ public class TripApplication {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	
+
 }

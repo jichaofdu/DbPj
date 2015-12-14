@@ -1,4 +1,5 @@
- package util;
+package util;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -8,7 +9,8 @@ public class JdbcUtil {
 	private String user;
 	private String passwd;
 	private static JdbcUtil util;
-	private JdbcUtil(){
+
+	private JdbcUtil() {
 		url = "jdbc:mysql://localhost:3306/dbpj?characterEncoding=utf8";
 		user = "root";
 		passwd = "140311jc";
@@ -19,18 +21,18 @@ public class JdbcUtil {
 		}
 	}
 
-	public static JdbcUtil getInstance(){
-		if(util == null){
+	public static JdbcUtil getInstance() {
+		if (util == null) {
 			util = new JdbcUtil();
 		}
 		return util;
 	}
-	public Connection getConnection(){
+
+	public Connection getConnection() {
 		Connection conn = null;
 		try {
 			conn = DriverManager.getConnection(url, user, passwd);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return conn;

@@ -1,4 +1,5 @@
 package dao;
+
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -10,38 +11,30 @@ import util.JdbcUtil;
 public class TripRecordDao {
 	private JdbcUtil util;
 	private static TripRecordDao tripRecordDao;
-	private final String createNewTripRecordSql
-		= "insert into trip_record(task_id,"
-				+ "trip_record_actual_trip_date,"
-				+ "trip_record_actual_number_of_days,"
-				+ "trip_record_work_description)"
-				+ "values(?,?,?,?)";
-	private final String getTripRecordById 
-		= "select * from trip_record where trip_record_id = ?";
-	private final String getTripRecordByTaskId
-		= "select * from trip_record where task_id = ?";
-	
+	private final String CREATE_NEW_TRIP_RECORD_SQL = "insert into trip_record(task_id,"
+			+ "trip_record_actual_trip_date,"
+			+ "trip_record_actual_number_of_days,"
+			+ "trip_record_work_description)" + "values(?,?,?,?)";
+	private final String GET_TRIP_RECORD_BY_ID_SQL = "select * from trip_record where trip_record_id = ?";
+	private final String GET_TRIP_RECORD_BY_TASK_ID_SQL = "select * from trip_record where task_id = ?";
+
 	private TripRecordDao() {
 		util = JdbcUtil.getInstance();
 	}
-	
-	public static TripRecordDao getInstance(){
-		if(tripRecordDao == null){
+
+	public static TripRecordDao getInstance() {
+		if (tripRecordDao == null) {
 			tripRecordDao = new TripRecordDao();
 		}
 		return tripRecordDao;
 	}
-	
-	/**
-	 * 解释：创建一个出差记录，ID由系统自动生成
-	 * @param tripRecord
-	 * @return
-	 */
-	public boolean createTripRecord(TripRecord tripRecord){
+
+	/* Create a trip record */
+	public boolean createTripRecord(TripRecord tripRecord) {
 		Connection conn = util.getConnection();
 		PreparedStatement ps = null;
 		try {
-			ps = conn.prepareStatement(this.createNewTripRecordSql);
+			ps = conn.prepareStatement(this.CREATE_NEW_TRIP_RECORD_SQL);
 			ps.setInt(1, tripRecord.getTaskId());
 			ps.setDate(2, tripRecord.getActualTripDate());
 			ps.setInt(3, tripRecord.getActualNumberOfDays());
@@ -51,88 +44,92 @@ public class TripRecordDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
-		}finally{
+		} finally {
 			try {
-				if(ps != null)   ps.close();
-				if(conn != null) conn.close();	
+				if (ps != null)
+					ps.close();
+				if (conn != null)
+					conn.close();
 			} catch (SQLException e) {
-					e.printStackTrace();
+				e.printStackTrace();
 			}
 		}
 	}
-	
-	/**
-	 * 解释：通过ID获取到某次出差任务的出差记录
-	 * @param tripRecordId
-	 * @return
-	 */
-	public TripRecord tripRecordGetById(int tripRecordId){
+
+	/* Get a trip record by trip_record_id  */
+	public TripRecord tripRecordGetById(int tripRecordId) {
 		Connection conn = util.getConnection();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		try{
-			ps = conn.prepareStatement(this.getTripRecordById);
-			ps.setInt(1,tripRecordId);
+		try {
+			ps = conn.prepareStatement(this.GET_TRIP_RECORD_BY_ID_SQL);
+			ps.setInt(1, tripRecordId);
 			rs = ps.executeQuery();
-			if(rs.next()){
+			if (rs.next()) {
 				int taskId = rs.getInt("task_id");
 				Date actualDate = rs.getDate("trip_record_actual_trip_date");
 				int numOfDays = rs.getInt("trip_record_actual_number_of_days");
-				String workContent = rs.getString("trip_record_work_description");
-				TripRecord tripRecord = new TripRecord(tripRecordId,taskId,actualDate,numOfDays,workContent);
+				String workContent = rs
+						.getString("trip_record_work_description");
+				TripRecord tripRecord = new TripRecord(tripRecordId, taskId,
+						actualDate, numOfDays, workContent);
 				return tripRecord;
-			}else{
+			} else {
 				return null;
 			}
-		}catch(SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
-		}finally{
+		} finally {
 			try {
-				if(ps != null)   ps.close();
-				if(conn != null) conn.close();	
-				if(rs != null) rs.close();
+				if (ps != null)
+					ps.close();
+				if (conn != null)
+					conn.close();
+				if (rs != null)
+					rs.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
-	/**
-	 * 解释：根据出差任务编号来查出差记录
-	 * @param taskId
-	 * @return
-	 */
-	public TripRecord getTripRecordByTaskId(int taskId){
+
+	/* Get a trip record by task_id */
+	public TripRecord getTripRecordByTaskId(int taskId) {
 		Connection conn = util.getConnection();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		try{
-			ps = conn.prepareStatement(this.getTripRecordByTaskId);
-			ps.setInt(1,taskId);
+		try {
+			ps = conn.prepareStatement(this.GET_TRIP_RECORD_BY_TASK_ID_SQL);
+			ps.setInt(1, taskId);
 			rs = ps.executeQuery();
-			if(rs.next()){
+			if (rs.next()) {
 				int id = rs.getInt("trip_record_id");
 				Date actualDate = rs.getDate("trip_record_actual_trip_date");
 				int numOfDays = rs.getInt("trip_record_actual_number_of_days");
-				String workContent = rs.getString("trip_record_work_description");
-				TripRecord tripRecord = new TripRecord(id,taskId,actualDate,numOfDays,workContent);
+				String workContent = rs
+						.getString("trip_record_work_description");
+				TripRecord tripRecord = new TripRecord(id, taskId, actualDate,
+						numOfDays, workContent);
 				return tripRecord;
-			}else{
+			} else {
 				return null;
 			}
-		}catch(SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
-		}finally{
+		} finally {
 			try {
-				if(ps != null)   ps.close();
-				if(conn != null) conn.close();	
-				if(rs != null) rs.close();
+				if (ps != null)
+					ps.close();
+				if (conn != null)
+					conn.close();
+				if (rs != null)
+					rs.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
 	}
-	
+
 }

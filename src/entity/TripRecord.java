@@ -1,7 +1,6 @@
 package entity;
+
 import java.sql.Date;
-
-
 
 public class TripRecord {
 	private int id;
@@ -9,9 +8,9 @@ public class TripRecord {
 	private Date actualTripDate;
 	private int actualNumberOfDays;
 	private String workContent;
-	
-	public TripRecord(int newId,int newTaskId,
-			Date newActualDate,int newNumDays,String newContent){
+
+	public TripRecord(int newId, int newTaskId, Date newActualDate,
+			int newNumDays, String newContent) {
 		this.id = newId;
 		this.taskId = newTaskId;
 		this.actualTripDate = newActualDate;
@@ -58,6 +57,5 @@ public class TripRecord {
 	public void setWorkContent(String workContent) {
 		this.workContent = workContent;
 	}
-	
-	
+
 }

@@ -5,8 +5,9 @@ public class Project {
 	private int managerId;
 	private String name;
 	private String description;
-	
-	public Project(int newId,int newManagerId,String newName,String newDescription){
+
+	public Project(int newId, int newManagerId, String newName,
+			String newDescription) {
 		this.id = newId;
 		this.managerId = newManagerId;
 		this.name = newName;
@@ -44,6 +45,5 @@ public class Project {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-	
+
 }

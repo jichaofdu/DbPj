@@ -6,8 +6,9 @@ public class User {
 	private String name;
 	private int type;
 	private boolean disabled;
-	
-	public User(int newID,String newPassword,String newName,int newType,boolean newDisabled){
+
+	public User(int newID, String newPassword, String newName, int newType,
+			boolean newDisabled) {
 		this.id = newID;
 		this.password = newPassword;
 		this.name = newName;
@@ -54,6 +55,5 @@ public class User {
 	public void setType(int type) {
 		this.type = type;
 	}
-	
-	
+
 }
