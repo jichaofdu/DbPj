@@ -21,11 +21,11 @@ public class TripRecordDao {
 	private final String getTripRecordByTaskId
 		= "select * from trip_record where task_id = ?";
 	
-	public TripRecordDao() {
+	private TripRecordDao() {
 		util = JdbcUtil.getInstance();
 	}
 	
-	public TripRecordDao getInstance(){
+	public static TripRecordDao getInstance(){
 		if(tripRecordDao == null){
 			tripRecordDao = new TripRecordDao();
 		}

@@ -22,9 +22,9 @@ public class TripApplicationDao {
 	private final String getTripApplicationByIdSql
 		= "select * from trip_application where application_id = ?";
 	private final String getTripApplicationByProjectIdSql
-		= "select * from trip_application where project_id = ?";
+		= "select * from trip_application where project_id = ? order by application_submission_time desc";
 	private final String getTripApplicationBySalesmanIdSql
-		= "select * from trip_application where salesman_id = ?";	
+		= "select * from trip_application where salesman_id = ? order by application_submission_time desc";	
 	private final String changeTripApplicationInfoSql
 		="update trip_application set salesman_id = ?,"
 				+ "project_id = ?,application_trip_date = ?,"

@@ -17,7 +17,7 @@ public class UserDao {
 		= "insert into user(user_password,user_name,user_type,user_disabled) "
 				+ "values(?,?,?,?)";
 	private final String getUserInfoSql
-		="select * from user where user_id = ?";
+		="select * from user where user_id = ? and user_disabled = false";
 	private final String changeUserInfoSql
 		="update user set user_password = ?,user_name = ?,user_type = ?,user_disabled = ? where user_id = ?";
 	

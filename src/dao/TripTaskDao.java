@@ -28,7 +28,7 @@ public class TripTaskDao{
 		util = JdbcUtil.getInstance();
 	}
 	
-	public TripTaskDao getInstance(){
+	public static TripTaskDao getInstance(){
 		if(tripTaskDao == null){
 			tripTaskDao = new TripTaskDao();
 		}

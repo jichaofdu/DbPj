@@ -22,7 +22,7 @@ public class RelationProjectDevelopertDao {
 		util = JdbcUtil.getInstance();
 	}
 	
-	public RelationProjectDevelopertDao getInstance(){
+	public static RelationProjectDevelopertDao getInstance(){
 		if(relationProjectDevelopertDao == null){
 			relationProjectDevelopertDao = new RelationProjectDevelopertDao();
 		}
